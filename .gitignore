@@ -1,0 +1,9 @@
+/*
+!/app/
+/app/vendor
+/app/composer.lock
+/app/config.php
+!.gitignore
+!LICENCE.md
+!README.md
+!index.php
