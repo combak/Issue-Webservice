@@ -12,13 +12,11 @@ return array(
         "repositories" => array(
             "aot" => array(
                 "name"  => "ProjectRET-AoT",
-                "owner" => "BakermanLP",
-                
+                "owner" => "BakermanLP",       
             ),
             "sw1" => array(
                 "name"  => "ShatteredWorld",
                 "owner" => "combak",
-                
             )
         ),
         "inputFilter" => array(
@@ -26,20 +24,31 @@ return array(
                 "name" => "repository",
                 "required" => true,
                 "validators" => array(
-                    
+                    new Zend\Validator\StringLength( array( "max" => 10 ) ),
+                    new Zend\I18n\Validator\Alnum()                    
                 )
             ),
             "author" => array(
                 "name" => "author",
-                "required" => true
+                "required" => true,
+                "validators" => array(
+                    new Zend\Validator\StringLength( array( "max" => 39 ) ),
+                    new Zend\I18n\Validator\Alnum()
+                )
             ),
             "title" => array(
                 "name" => "title",
-                "required" => true
+                "required" => true,
+                "validators" => array(
+                    new Zend\Validator\StringLength( array( "max" => 100 ) )
+                )
             ),
             "text" => array(
                 "name" => "text",
-                "required" => true
+                "required" => true,
+                "validators" => array(
+                    new Zend\Validator\StringLength( array( "max" => 5000 ) )
+                )
             )
         )
     )
