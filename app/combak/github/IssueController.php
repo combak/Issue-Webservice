@@ -43,7 +43,7 @@ class IssueController
     protected function postAction()
     {
         $inputFilter = $this->_github->getInputFilter();
-        $inputFilter->setData( filter_input_array( INPUT_POST ) );
+        $inputFilter->setData( Json::decode( file_get_contents( "php://input" ), Json::TYPE_ARRAY ) );
         
         if( $inputFilter->isValid() )
         {
@@ -64,7 +64,6 @@ class IssueController
 
     public function listen()
     {
-        $response = "";
         switch( filter_input( INPUT_SERVER , "REQUEST_METHOD" ) )
         {
             case "POST" : 
@@ -75,6 +74,7 @@ class IssueController
                 break;
             default :
                 http_response_code( 400 );
+                $response = "Unknown request";
                 break;
         }
         return $response;
