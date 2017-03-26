@@ -100,6 +100,7 @@ class Service
         {
             throw new \RuntimeException( $response->getStatusCode() .": ". $response->getBody() );
         }
+        return $response->getBody();
     }
 
 }
