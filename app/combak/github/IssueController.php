@@ -2,6 +2,8 @@
 namespace combak\github;
 
 use Zend\Config\Config;
+use Zend\Json\Json;
+use Zend\Http\Response;
 use combak\github\api\Service;
 use combak\github\api\Issue;
 
@@ -32,6 +34,12 @@ class IssueController
         $this->_github = new Service( $this->_config->get( "github" ) );
     }
     
+    protected function getAction()
+    {       
+        http_response_code( 200 );
+        return Json::encode( $this->_github->getAllowedRepositories()->toArray() );
+    }
+    
     protected function postAction()
     {
         $inputFilter = $this->_github->getInputFilter();
@@ -44,23 +52,31 @@ class IssueController
                 $inputFilter->getValue( "title" ),
                 $inputFilter->getValue( "text" )
             );
-            $this->_github->postIssue( $issue, $inputFilter->getValue( "repository" ) );
+            http_response_code( 201 );
+            return $this->_github->postIssue( $issue, $inputFilter->getValue( "repository" ) );
         }
         else 
         {
-            /**
-             * @todo error handling
-             */
+            http_response_code( 400 );
+            return Json::encode( $inputFilter->getMessages() );
         }        
     }
 
     public function listen()
     {
+        $response = "";
         switch( filter_input( INPUT_SERVER , "REQUEST_METHOD" ) )
         {
             case "POST" : 
-                $this->postAction();
+                $response = $this->postAction();
                 break;
-        }            
+            case "GET" :
+                $response = $this->getAction();
+                break;
+            default :
+                http_response_code( 400 );
+                break;
+        }
+        return $response;
    }
 }
