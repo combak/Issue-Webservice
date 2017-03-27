@@ -95,6 +95,11 @@ class Service
         $client->setRawBody( $issue->toJson() );
         
         $response = $client->send();
+
+        if( !isset( $response ) )
+        {
+            throw new \RuntimeException( "No response received." );
+        }
         
         if( !$response->isSuccess() )
         {

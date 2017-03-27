@@ -10,7 +10,6 @@ function GithubApi( apiUrl )
      */
     this.getAll = function( callback, error )
     {
-        console.log("get repos");
         //Request Object
         xhr = new XMLHttpRequest();
         
@@ -47,7 +46,6 @@ function GithubApi( apiUrl )
      */
     this.create = function( value, callback, error )
     {
-        console.log("post issu");
         //Request Object
         xhr = new XMLHttpRequest();
         

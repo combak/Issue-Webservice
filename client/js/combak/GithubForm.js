@@ -23,21 +23,16 @@ function GithubForm( config )
         this._text = document.getElementById( this._config.formRefId.text );
         this._submit = document.getElementById( this._config.formRefId.submit );
         
-        this._form.onsubmit = function(){
-            this.onSubmit();
-            console.log("test");
-            //Supress submit
-            return false;
-        }.bind( this );
+        this._form.onsubmit = function(){ return this.onSubmit(); }.bind( this );
         
-        this.loadRepositories()
+        this.loadRepositories();
     };
     
     this.loadRepositories = function()
     {
         this._api.getAll( function( response ) {
             
-            for( id in response )
+            for( var id in response )
             {
                 this._repository.innerHTML += "<option value=\""+id+"\">"+response[id].name+"</option";
             }
@@ -52,10 +47,54 @@ function GithubForm( config )
             "author" : this._author.value,
             "title" : this._title.value,
             "text" : this._text.value
-        }, function( response ){
-            console.log( response );
-        }, function( response ){
-            console.error( response );
-        } );
+        }, 
+        function( response ) { this.onSubmitted( response ); }.bind( this ),
+        function( response ) { this.onError( response ); }.bind( this ) );
+        
+        //Supress form submit
+        return false;
+    };
+    
+    this.onSubmitted = function( response )
+    {
+        this._messages.setAttribute( "class", "alert alert-success" );
+        this._messages.innerHTML = "Issue created:" + response.html_url;        
+        
+        this._author.value = "";
+        this._title.value = "";
+        this._text.value = "";
+    };
+    
+    this.onError = function( response )
+    {
+        this._messages.setAttribute( "class", "" );
+        this._messages.innerHTML = "";
+        
+        alert = "";
+        text = "";
+        
+        switch( response.code )
+        {
+            case 400 :
+                alert = "alert alert-warning";
+                text += "<ul>";
+                
+                for( var field in response.response )
+                {
+                    for( var error in response.response[field] )
+                    {
+                        text += "<li>"+ field + ": " + response.response[field][error] + "</li>";
+                    }
+                }
+                text += "</ul>";
+                break;
+            case 500 :
+                alert = "alert alert-danger";
+                text = response.response.exception + ": " + response.response.message;
+                break;
+                
+        }
+        this._messages.setAttribute( "class", alert );        
+        this._messages.innerHTML = text;
     };
 }
