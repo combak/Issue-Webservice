@@ -7,3 +7,4 @@ phpunit.xml
 /nbproject/private/
 *.lock
 *.phar
+/nbproject/
