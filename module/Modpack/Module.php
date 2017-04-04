@@ -1,0 +1,29 @@
+<?php
+namespace Modpack;
+
+use ZF\Apigility\Provider\ApigilityProviderInterface;
+
+class Module implements ApigilityProviderInterface
+{
+    public function getConfig()
+    {
+        return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function getAutoloaderConfig()
+    {
+        return [
+            'ZF\Apigility\Autoloader' => [
+                'namespaces' => [
+                    __NAMESPACE__ => __DIR__ . '/src',
+                ],
+            ],
+             'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
+                    __NAMESPACE__ => __DIR__ 
+                ]
+            ]
+        ];
+        
+    }
+}
