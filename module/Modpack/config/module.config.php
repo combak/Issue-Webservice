@@ -2,8 +2,9 @@
 return [
     'service_manager' => [
         'factories' => [
-            \Modpack\V1\Rest\Issue\IssueResource::class => \Modpack\V1\Rest\Issue\IssueResourceFactory::class,
-            \Modpack\V1\Rest\Repository\RepositoryResource::class => \Modpack\V1\Rest\Repository\RepositoryResourceFactory::class,
+            \Modpack\V1\Rest\Issue\IssueResource::class             => \Modpack\V1\Rest\Issue\IssueResourceFactory::class,
+            \Modpack\V1\Rest\Repository\RepositoryResource::class   => \Modpack\V1\Rest\Repository\RepositoryResourceFactory::class,
+            \Modpack\Model\RepositoryService::class                 => \Modpack\Model\RepositoryServiceFactory::class
         ],
     ],
     'router' => [

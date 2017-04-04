@@ -18,6 +18,12 @@ class Module implements ApigilityProviderInterface
                     __NAMESPACE__ => __DIR__ . '/src',
                 ],
             ],
+             'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
+                    __NAMESPACE__ => __DIR__ 
+                ]
+            ]
         ];
+        
     }
 }

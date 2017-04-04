@@ -17,12 +17,12 @@ return [
         "auth" => [
             "user" => "",
             "token" => ""
-        ]
-    ],
-    "repositories" => [
-        "" => [
-            "name"  => "",
-            "owner" => "",       
+        ],
+        "repositories" => [
+            "" => [
+                "name"  => "",
+                "owner" => "",       
+            ]
         ]
     ]
 ];
