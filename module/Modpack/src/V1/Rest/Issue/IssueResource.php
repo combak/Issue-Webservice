@@ -5,24 +5,24 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 use Zend\Http\Client;
 use Zend\Http\Request;
+use Zend\Json\Json;
+
+use Modpack\Model\RepositoryServiceInterface;
 
 class IssueResource extends AbstractResourceListener
 {
-    private $_apiUrl;
+    private $_service;
     private $_user;
     private $_token;
 
 
-    public function __construct( $config ) 
+    public function __construct( RepositoryServiceInterface $service, $user, $token ) 
     {
-        if( isset( $config["apiUrl"] ) ) { $this->_apiUrl = $config["apiUrl"]; }
-        
-        if( isset( $config["auth" ] ) )
-        {
-            if( isset( $config["auth"]["user"] ) ) { $this->_user = $config["auth"]["user"]; }
-            if( isset( $config["auth"]["token"] ) ) { $this->_token = $config["auth"]["token"]; }
-        }
+        $this->_service = $service;
+        $this->_user    = $user;
+        $this->_token   = $token;
     }
+    
     /**
      * Create a resource
      *
@@ -31,12 +31,18 @@ class IssueResource extends AbstractResourceListener
      */
     public function create( $data )
     {
-        if( isset( $this->_apiUrl ) ) { return new ApiProblem( 503, "Service Unavailable: Github API Connector isn't configured" ); }
-        if( isset( $this->_user ) ) { return new ApiProblem( 503, "Service Unavailable: Github API Connector isn't configured" ); }
-        if( isset( $this->_token ) ) { return new ApiProblem( 503, "Service Unavailable: Github API Connector isn't configured" ); }
+        $client = new Client( $this->_service->getRepositoryUrl( $data["repository" ] ) . "/issues", array(
+            "sslverifypeer" => false
+        ) );
+        $client->setEncType( "application/json" );
+        $client->setMethod( Request::METHOD_POST );
+        $client->setAuth( $this->_user, $this->_token );
+        $client->setRawBody( Json::encode( $data ) );
+        
+        $response = $client->send();
         
         /**
-         * @todo 
+         * @todo evaluate response
          */
         
         
