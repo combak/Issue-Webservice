@@ -5,14 +5,20 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
+use Modpack\Model\RepositoryServiceInterface;
+
 class RepositoryResource extends AbstractResourceListener
 {
-    private $_repositories;
+    /**
+     *
+     * @var RepositoryServiceInterface 
+     */
+    private $_service;
 
 
-    public function __construct( $repositories ) 
+    public function __construct( RepositoryServiceInterface $service ) 
     {
-        if( isset( $repositories ) ) { $this->_repositories = $repositories; }
+        $this->_service = $service;
     }
 
     /**
@@ -67,7 +73,7 @@ class RepositoryResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {   
-        $adapter = new ArrayAdapter( $this->_repositories );
+        $adapter = new ArrayAdapter( $this->_service->getAllRepositories() );
         $collection = new RepositoryCollection( $adapter );
         
         return $collection;
