@@ -5,7 +5,7 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
-use Modpack\Model\RepositoryServiceInterface;
+use Modpack\Model\Github\RepositoryServiceInterface;
 
 class RepositoryResource extends AbstractResourceListener
 {

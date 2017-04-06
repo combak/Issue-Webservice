@@ -1,7 +1,7 @@
 <?php
 namespace Modpack\V1\Rest\Repository;
 
-use Modpack\Model\RepositoryService;
+use Modpack\Model\Github\RepositoryService;
 
 class RepositoryResourceFactory
 {
