@@ -22,7 +22,7 @@ return [
             'modpack.rest.repository' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/repository[/:repository_id]',
+                    'route' => '/repository',
                     'defaults' => [
                         'controller' => 'Modpack\\V1\\Rest\\Repository\\Controller',
                     ],
