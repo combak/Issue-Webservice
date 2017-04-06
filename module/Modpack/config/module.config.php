@@ -2,9 +2,9 @@
 return [
     'service_manager' => [
         'factories' => [
-            \Modpack\V1\Rest\Issue\IssueResource::class             => \Modpack\V1\Rest\Issue\IssueResourceFactory::class,
-            \Modpack\V1\Rest\Repository\RepositoryResource::class   => \Modpack\V1\Rest\Repository\RepositoryResourceFactory::class,
-            \Modpack\Model\RepositoryService::class                 => \Modpack\Model\RepositoryServiceFactory::class
+            \Modpack\V1\Rest\Issue\IssueResource::class => \Modpack\V1\Rest\Issue\IssueResourceFactory::class,
+            \Modpack\V1\Rest\Repository\RepositoryResource::class => \Modpack\V1\Rest\Repository\RepositoryResourceFactory::class,
+            \Modpack\Model\Github\RepositoryService::class => \Modpack\Model\Github\RepositoryServiceFactory::class,
         ],
     ],
     'router' => [
@@ -12,7 +12,7 @@ return [
             'modpack.rest.issue' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/issue[/:issue_id]',
+                    'route' => '/issue',
                     'defaults' => [
                         'controller' => 'Modpack\\V1\\Rest\\Issue\\Controller',
                     ],
@@ -134,27 +134,73 @@ return [
         'Modpack\\V1\\Rest\\Issue\\Validator' => [
             0 => [
                 'required' => true,
-                'validators' => [],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '2',
+                            'max' => '10',
+                        ],
+                    ],
+                ],
                 'filters' => [],
                 'name' => 'repository',
+                'description' => 'The token of the related repository.',
+                'field_type' => 'string',
             ],
             1 => [
-                'required' => true,
-                'validators' => [],
-                'filters' => [],
+                'required' => false,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '2',
+                        ],
+                    ],
+                ],
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\ToNull::class,
+                        'options' => [],
+                    ],
+                ],
                 'name' => 'name',
+                'description' => 'The author of the issue.',
+                'continue_if_empty' => true,
+                'allow_empty' => true,
+                'field_type' => 'string',
             ],
             2 => [
                 'required' => true,
-                'validators' => [],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '2',
+                            'max' => '100',
+                        ],
+                    ],
+                ],
                 'filters' => [],
                 'name' => 'title',
+                'description' => 'The title of the issue,',
+                'field_type' => 'string',
             ],
             3 => [
                 'required' => true,
-                'validators' => [],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '2',
+                            'max' => '5000',
+                        ],
+                    ],
+                ],
                 'filters' => [],
                 'name' => 'description',
+                'description' => 'The contents of the issue.',
+                'field_type' => 'string',
             ],
         ],
     ],
