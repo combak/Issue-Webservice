@@ -19,10 +19,10 @@ return [
             "token" => "Test-Token"
         ],
         "repositories" => [
-            "test" => [
-                "token" => "test"
-                "name"  => "Test-Repository",
-                "owner" => "Test-Owner",       
+            "mws" => [
+                "token" => "mws",
+                "name"  => "Modpack-Webservice",
+                "owner" => "combak"
             ]
         ],
         "issue" => [
