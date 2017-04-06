@@ -1,5 +1,5 @@
 <?php
-namespace Modpack\Model;
+namespace Modpack\Model\Github;
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */

@@ -1,18 +1,31 @@
 <?php
-namespace Modpack\Model;
+namespace Modpack\Model\Github;
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
 class RepositoryService implements RepositoryServiceInterface
 {
+    /**
+     * Github API Url
+     * 
+     * @var string
+     */
     private $_apiUrl;
     
+    /**
+     * Set of all allowed repositories
+     * @var array
+     */
     private $_repositories;
     
-    public function __construct( array $config ) 
+    /**
+     * @param string $apiUrl
+     * @param array $repositories
+     */
+    public function __construct( $apiUrl, array $repositories ) 
     {
-        $this->_apiUrl          = ( isset( $config["apiUrl"] ) ) ? $config["apiUrl"] : "";
-        $this->_repositories    = ( isset( $config["repositories"] ) ) ? $config["repositories"] : array();
+        $this->_apiUrl          = $apiUrl;
+        $this->_repositories    = $repositories;
     }
     
     /**********************************************************************
@@ -49,9 +62,9 @@ class RepositoryService implements RepositoryServiceInterface
     public function getRepositoryUrl( $name )
     {
         $repository = $this->getRepository( $name );
-        $name       = ( isset( $repository["name"] ) ) ? $repository["name"] : "";
-        $owner      = ( isset( $repository["owner"] ) ) ? $repository["owner"] : "";
+        $repoName       = ( isset( $repository["name"] ) ) ? $repository["name"] : "";
+        $repOwner      = ( isset( $repository["owner"] ) ) ? $repository["owner"] : "";
         
-        return $this->_apiUrl . "repos/" . $owner . "/" . $name;
+        return $this->_apiUrl . "repos/" . $repOwner . "/" . $repoName;
     }
 }
