@@ -15,14 +15,20 @@ return [
     "github" => [
         "apiUrl" => "https://api.github.com",
         "auth" => [
-            "user" => "",
-            "token" => ""
+            "user" => "Test",
+            "token" => "Test-Token"
         ],
         "repositories" => [
-            "" => [
-                "name"  => "",
-                "owner" => "",       
+            "test" => [
+                "token" => "test"
+                "name"  => "Test-Repository",
+                "owner" => "Test-Owner",       
             ]
+        ],
+        "issue" => [
+            "name_prefix" => "Issue posted by ",
+            "name_suffix" => ": "
+            
         ]
     ]
 ];
