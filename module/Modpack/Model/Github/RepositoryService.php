@@ -65,6 +65,6 @@ class RepositoryService implements RepositoryServiceInterface
         $repoName       = ( isset( $repository["name"] ) ) ? $repository["name"] : "";
         $repOwner      = ( isset( $repository["owner"] ) ) ? $repository["owner"] : "";
         
-        return $this->_apiUrl . "repos/" . $repOwner . "/" . $repoName;
+        return $this->_apiUrl . "/repos/" . $repOwner . "/" . $repoName;
     }
 }
