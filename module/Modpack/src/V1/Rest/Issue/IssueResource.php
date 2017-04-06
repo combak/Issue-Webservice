@@ -3,24 +3,36 @@ namespace Modpack\V1\Rest\Issue;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
-use Zend\Http\Client;
-use Zend\Http\Request;
 use Zend\Json\Json;
 
-use Modpack\Model\RepositoryServiceInterface;
+use Modpack\Model\Github\IssueServiceInterface;
+use Modpack\Model\Github\RepositoryServiceInterface;
 
 class IssueResource extends AbstractResourceListener
 {
-    private $_service;
-    private $_user;
-    private $_token;
-
-
-    public function __construct( RepositoryServiceInterface $service, $user, $token ) 
+    /**
+     * Github Issue Service Interface
+     * 
+     * @var \Modpack\Model\Github\IssueServiceInterface
+     */
+    private $_issueService;
+    
+    /**
+     * Github Repository Service Interface
+     * 
+     * @var \Modpack\Model\Github\RepositoryServiceInterface 
+     */
+    private $_repositoryService;
+    
+    /**
+     * 
+     * @param \Modpack\Model\Github\IssueServiceInterface $issueService
+     * @param \Modpack\Model\Github\RepositoryServiceInterface $repositoryService
+     */
+    public function __construct( IssueServiceInterface $issueService, RepositoryServiceInterface $repositoryService ) 
     {
-        $this->_service = $service;
-        $this->_user    = $user;
-        $this->_token   = $token;
+        $this->_issueService        = $issueService;
+        $this->_repositoryService   = $repositoryService;
     }
     
     /**
@@ -31,21 +43,17 @@ class IssueResource extends AbstractResourceListener
      */
     public function create( $data )
     {
-        $client = new Client( $this->_service->getRepositoryUrl( $data["repository" ] ) . "/issues", array(
-            "sslverifypeer" => false
-        ) );
-        $client->setEncType( "application/json" );
-        $client->setMethod( Request::METHOD_POST );
-        $client->setAuth( $this->_user, $this->_token );
-        $client->setRawBody( Json::encode( $data ) );
+        $repoUrl    = $this->_repositoryService->getRepositoryUrl( $data->repository ) . "/issues";
+        $response   = $this->_issueService->postIssue( $repoUrl, $data );
         
-        $response = $client->send();
-        
-        /**
-         * @todo evaluate response
-         */
-        
-        
+        if( $response->isSuccess() )
+        {
+            return Json::decode( $response->getBody() );
+        }
+        else
+        {
+            return new ApiProblem( $response->getStatusCode(), $response->getBody() );
+        }
         //return new ApiProblem(405, 'The POST method has not been defined');
     }
 
