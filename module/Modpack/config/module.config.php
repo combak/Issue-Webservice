@@ -5,6 +5,7 @@ return [
             \Modpack\V1\Rest\Issue\IssueResource::class => \Modpack\V1\Rest\Issue\IssueResourceFactory::class,
             \Modpack\V1\Rest\Repository\RepositoryResource::class => \Modpack\V1\Rest\Repository\RepositoryResourceFactory::class,
             \Modpack\Model\Github\RepositoryService::class => \Modpack\Model\Github\RepositoryServiceFactory::class,
+            \Modpack\Model\Github\IssueService::class => \Modpack\Model\Github\IssueServiceFactory::class,
         ],
     ],
     'router' => [
@@ -41,10 +42,10 @@ return [
             'route_name' => 'modpack.rest.issue',
             'route_identifier_name' => 'issue_id',
             'collection_name' => 'issue',
-            'entity_http_methods' => [
+            'entity_http_methods' => [],
+            'collection_http_methods' => [
                 0 => 'POST',
             ],
-            'collection_http_methods' => [],
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
