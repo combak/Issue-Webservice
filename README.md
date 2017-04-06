@@ -40,3 +40,7 @@ return [
     ]
 ];
 ```
+
+## Usage
+
+See [Wiki](https://github.com/combak/Modpack-Webservice/wiki)
